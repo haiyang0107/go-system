@@ -1,0 +1,26 @@
+# GoSystemManage Configuration
+
+
+# mysql connect configuration
+mysql:
+  username: root
+  password: '12345678'
+  path: '127.0.0.1:3306'
+  db-name: 'gosys'
+  config: 'charset=utf8&parseTime=True&loc=Local'
+  max-idle-conns: 10
+  max-open-conns: 10
+  log-mode: false
+
+# system configuration
+system:
+  env: 'public'
+  addr: 8888
+  db-type: "mysql"
+
+# logger configuration
+log:
+  prefix: '[GO-SYSTEM-MANAGE]'
+  log-file: true
+  stdout: 'DEBUG'
+  file: 'DEBUG'

@@ -5,6 +5,7 @@ type Server struct {
 	Mysql  Mysql  `mapstructure:"mysql" json:"mysql" yaml:"mysql"`
 	System System `mapstructure:"system" json:"system" yaml:"system"`
 	Log    Log    `mapstructure:"log" json:"log" yaml:"log"`
+	Redis  Redis  `mapstructure:"redis" json:"redis" yaml:"redis"`
 }
 
 //构建Mysql 结构体，将Mysql连接信息进行加载读取
@@ -30,4 +31,11 @@ type System struct {
 	Env    string `mapstructure:"env" json:"env" yaml:"env"`
 	Addr   int    `mapstructure:"addr" json:"addr" yaml:"addr"`
 	DbType string `mapstructure:"db-type" json:"dbType" yaml:"db-type"`
+}
+
+// 配置 redis 信息
+type Redis struct {
+	Addr     string `mapstructure:"addr" json:"addr" yaml:"addr"`
+	Password string `mapstructure:"password" json:"password" yaml:"password"`
+	DB       int    `mapstructure:"db" json:"db" yaml:"db"`
 }

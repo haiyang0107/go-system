@@ -6,6 +6,10 @@ type Server struct {
 	System System `mapstructure:"system" json:"system" yaml:"system"`
 	Log    Log    `mapstructure:"log" json:"log" yaml:"log"`
 	Redis  Redis  `mapstructure:"redis" json:"redis" yaml:"redis"`
+	Casbin Casbin `mapstructure:"casbin" json:"casbin" yaml:"casbin"`
+}
+type Casbin struct {
+	ModelPath string `mapstructure:"model-path" json:"model-path" yaml:"model-path"`
 }
 
 //构建Mysql 结构体，将Mysql连接信息进行加载读取

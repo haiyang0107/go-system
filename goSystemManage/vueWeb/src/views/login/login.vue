@@ -23,8 +23,8 @@ export default {
   name: 'Login',
   data () {
     return {
-      loginId: '',
-      password: '',
+      loginId: 'admin',
+      password: '123456',
       isShowNotice: false,
       noticeContent: ''
     }

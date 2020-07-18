@@ -103,7 +103,6 @@ export default {
     margin-bottom: 20px;
     box-sizing: border-box;
 }
-
 .login-btn {
   width: 100%;
   height: 40px;

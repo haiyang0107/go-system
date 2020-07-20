@@ -19,6 +19,11 @@ redis:
 #Casbin configuration
 casbin:
   model-path: './resource/rbac_model/conf'
+
+#jwt configuration
+jwt:
+   signing-key: 'nxzServer'
+
 # system configuration
 system:
   env: 'public'
@@ -31,3 +36,9 @@ log:
   log-file: true
   stdout: 'DEBUG'
   file: 'DEBUG'
+
+#captcha configuration
+captcha:
+  key-long: 6
+  img-width: 240
+  img-height: 80

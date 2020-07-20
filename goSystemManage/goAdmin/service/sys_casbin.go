@@ -9,7 +9,7 @@ import (
 )
 
 func Casbin() *casbin.Enforcer {
-	a := gormadapter.NewAdapter(global.GLOBAL_DB)
+	a := gormadapter.NewAdapterByDB(global.GLOBAL_DB)
 	e := casbin.NewEnforcer(global.GLOBAL_CONFIG.Casbin.ModelPath, a)
 	e.AddFunction("ParamsMatch", ParamsMatchFunc)
 	e.LoadPolicy()

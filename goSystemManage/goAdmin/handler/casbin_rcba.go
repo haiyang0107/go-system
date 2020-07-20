@@ -23,7 +23,6 @@ func CasbinHandler() gin.HandlerFunc {
 			if global.GLOBAL_CONFIG.System.Env == "develop" || e.Enforce(sub, obj, act) {
 				c.Next()
 			} else {
-
 				c.Abort()
 				return
 			}

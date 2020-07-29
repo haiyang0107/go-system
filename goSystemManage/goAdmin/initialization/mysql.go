@@ -32,7 +32,7 @@ func InitDbTables() {
 		model.SysMenu{},
 		model.SysRole{},
 		model.SysRoleMenu{},
-		model.SysJwt{},
+		model.SysJwtBlack{},
 		model.SysCasbin{},
 	)
 	global.GLOBAL_LOG.Debug("register table   success")

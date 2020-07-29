@@ -1,5 +1,6 @@
 package handler
 
+//noinspection ALL
 import (
 	"errors"
 	"github.com/dgrijalva/jwt-go"
@@ -30,12 +31,14 @@ func NewJWT() *JWT {
 }
 
 //创建一个token
+//noinspection ALL
 func (j *JWT) CreateToken(claims request.CustomClaims) (string, error) {
 	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
 	return token.SignedString(j.SigningKey)
 }
 
 //解析token
+//noinspection ALL
 func (j *JWT) ParseToken(tokenString string) (*request.CustomClaims, error) {
 	token, err := jwt.ParseWithClaims(tokenString, &request.CustomClaims{}, func(token *jwt.Token) (i interface{}, e error) {
 		return j.SigningKey, nil
@@ -87,7 +90,7 @@ func JWTAuth() gin.HandlerFunc {
 		//我们这里jwt鉴权头部信息：x-token 登录时返回 token信息 前端进行token信息存储
 		//记录过期时间，约定刷新令牌或者重新登录
 		token := c.Request.Header.Get("x-token")
-		modelToken := model.JwtBlacklist{
+		modelToken := model.SysJwtBlack{
 			Jwt: token,
 		}
 		if token == "" {

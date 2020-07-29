@@ -1,5 +1,6 @@
 package service
 
+//noinspection GoUnresolvedReference
 import (
 	"github.com/casbin/casbin"
 	"github.com/casbin/casbin/util"
@@ -8,6 +9,7 @@ import (
 	"strings"
 )
 
+//noinspection GoUnresolvedReference
 func Casbin() *casbin.Enforcer {
 	a := gormadapter.NewAdapterByDB(global.GLOBAL_DB)
 	e := casbin.NewEnforcer(global.GLOBAL_CONFIG.Casbin.ModelPath, a)
@@ -25,6 +27,7 @@ func ParamsMatchFunc(args ...interface{}) (i interface{}, err error) {
 //@title  ParamsMatch
 //description  customized rule ,自定义规则函数
 
+//noinspection GoUnresolvedReference
 func ParamsMatch(name1 string, name2 string) bool {
 	key := strings.Split(name1, "?")[0]
 	return util.KeyMatch(key, name2)

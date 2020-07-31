@@ -23,7 +23,42 @@ func RegisterRule(key string, rule Rules) (err error) {
 	}
 }
 func Verify(st interface{}, roleMap Rules) (err error) {
-
+	compareMap := map[string]string{
+		"lt": "lt",
+		"le": "le",
+		"gt": "gt",
+		"ge": "ge",
+		"eq": "eq",
+		"ne": "ne",
+	}
+	typ := TypeOf(st)
+	val := ValueOf(st)
+	kd := val.Kind()
+	if kd != Struct {
+		return errors.New("exprect struct")
+	}
+	num := val.NumField()
+	//循环遍历所有的字段
+	for i := 0; i < num; i++ {
+		tagVal := typ.Field(i)
+		val := val.Field(i)
+		if len(roleMap[tagVal.Name]) > 0 {
+			for _, v := range roleMap[tagVal.Name] {
+				str := strings.Split(v, "=")[0]
+				switch v {
+				case "notEmpty":
+					if IsNotEmpty(val) {
+						return errors.New(tagVal.Name + "值不能为空")
+					}
+				case compareMap[str]:
+					if !CompareVerify(val, v) {
+						return errors.New(tagVal.Name + "长度或值不在合法范围，" + v)
+					}
+				}
+			}
+		}
+	}
+	return nil
 }
 
 //长度和数值的比较，根据类型自动校验
@@ -55,7 +90,7 @@ func Compare(value interface{}, str string) bool {
 		switch arry[0] {
 		case "lt":
 			return Val.Int() < Vint
-		case "gt":
+		case "le":
 			return Val.Int() <= Vint
 		case "eq":
 			return Val.Int() == Vint
@@ -76,7 +111,7 @@ func Compare(value interface{}, str string) bool {
 		switch arry[0] {
 		case "lt":
 			return Val.Uint() < Vuint
-		case "gt":
+		case "le":
 			return Val.Uint() <= Vuint
 		case "eq":
 			return Val.Uint() == Vuint
@@ -97,7 +132,7 @@ func Compare(value interface{}, str string) bool {
 		switch arry[0] {
 		case "lt":
 			return Val.Float() < VFloat
-		case "gt":
+		case "le":
 			return Val.Float() <= VFloat
 		case "eq":
 			return Val.Float() == VFloat

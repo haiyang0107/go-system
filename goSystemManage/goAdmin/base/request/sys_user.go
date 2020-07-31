@@ -7,3 +7,10 @@ type RegisterStruct struct {
 	Image     string `json:"image"`
 	Password  string `json:"password"`
 }
+
+type LoginStruct struct {
+	LoginName string `json:"loginName"`
+	Password  string `json:"password"`
+	Captcha   string `json:captcha`
+	CaptchaId string `json:captchaId`
+}

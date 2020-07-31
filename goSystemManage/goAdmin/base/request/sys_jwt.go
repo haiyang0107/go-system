@@ -6,9 +6,9 @@ import (
 )
 
 type CustomClaims struct {
-	UUID        uuid.UUID
-	ID          uint
-	NickName    string
-	AuthorityId string
+	UUID   uuid.UUID
+	ID     uint
+	Name   string
+	RoleId int
 	jwt.StandardClaims
 }

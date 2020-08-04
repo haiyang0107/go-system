@@ -101,20 +101,20 @@ func Login(c *gin.Context) {
 
 //用户管理--删除用户
 func DeleteUser(c *gin.Context) {
-	var Login request.LoginStruct
-	err := c.ShouldBindJSON(&Login)
+	var ID request.GetById
+	err := c.ShouldBindJSON(&ID)
 	if err != nil {
 		response.FailWithMessage("数据格式异常", c)
 	}
-	userVerify := util.Rules{
-		"LoginName": {util.NotEmpty()},
-		"Captcha":   {util.NotEmpty()},
-		"CaptchaId": {util.NotEmpty()},
-		"Password":  {util.NotEmpty()},
+
+	IdVerifyErr := util.Verify(ID, util.CustomizeMap["IdVerify"])
+	if IdVerifyErr != nil {
+		response.FailWithMessage(IdVerifyErr.Error(), c)
 	}
-	userVerifyErr := util.Verify(Login, userVerify)
-	if userVerifyErr != nil {
-		response.FailWithMessage(userVerifyErr.Error(), c)
+	if err := service.DeleteUser(ID.Id); err != nil {
+		response.FailWithMessage("删除用户失败，请检查Id是否正确", c)
+	} else {
+		response.SuccessWithMessage("删除用户成功", c)
 	}
 }
 

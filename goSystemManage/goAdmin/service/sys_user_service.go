@@ -41,3 +41,11 @@ func ChangePassword(user *model.SysUser, newPassword string) (err error, userInf
 	err = db.Where("loginName = ? And password = ?", user.LoginName, user.Password).First(&bean).Update("password", util.Md5Enc([]byte(newPassword))).Error
 	return err, user
 }
+
+//删除用户
+func DeleteUser(id float64) (err error) {
+	var bean model.SysUser
+	db := global.GLOBAL_DB
+	err = db.Where(" id = ? ", id).Delete(&bean).Error
+	return err
+}

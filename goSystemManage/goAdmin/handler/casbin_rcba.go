@@ -17,10 +17,10 @@ func CasbinHandler() gin.HandlerFunc {
 			obj := c.Request.URL.RequestURI()
 			//获取请求办法
 			act := c.Request.Method
-			//获取用户觉得
-			sub := waitUse.AuthorityId
+			//获取用户角色
+			sub := waitUse.RoleId
 			e := service.Casbin()
-			if global.GLOBAL_CONFIG.System.Env == "develop" || e.Enforce(sub, obj, act) {
+			if global.GLOBAL_CONFIG.System.Env == "public" || e.Enforce(sub, obj, act) {
 				c.Next()
 			} else {
 				c.Abort()

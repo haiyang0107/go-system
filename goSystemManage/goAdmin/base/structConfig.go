@@ -39,7 +39,7 @@ type Log struct {
 
 //配置system 信息
 type System struct {
-	AllowSingle bool   `mapstructure:"env" json:"env" yaml:"env"`
+	AllowSingle bool   `mapstructure:"allowSingle" json:"allowSingle" yaml:"allowSingle"`
 	Env         string `mapstructure:"env" json:"env" yaml:"env"`
 	Addr        int    `mapstructure:"addr" json:"addr" yaml:"addr"`
 	DbType      string `mapstructure:"db-type" json:"dbType" yaml:"db-type"`

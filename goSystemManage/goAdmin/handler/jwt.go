@@ -5,7 +5,6 @@ import (
 	"errors"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"github.com/jinzhu/gorm"
 	"goAdmin/base/request"
 	"goAdmin/global"
 	"goAdmin/global/response"
@@ -60,9 +59,11 @@ func (j *JWT) ParseToken(tokenString string) (*request.CustomClaims, error) {
 		if claims, ok := token.Claims.(*request.CustomClaims); ok && token.Valid {
 			return claims, nil
 		}
+		return nil, TokenInvalid
 	} else {
 		return nil, TokenInvalid
 	}
+
 }
 
 //更新token

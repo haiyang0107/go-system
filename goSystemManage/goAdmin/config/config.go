@@ -33,5 +33,6 @@ func Init() {
 
 //启动项目server
 func RunServer() {
+	//添加服务注册端口
 	fmt.Println("a big go system is run with server!")
 }

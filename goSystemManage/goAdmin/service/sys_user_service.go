@@ -32,3 +32,12 @@ func Login(user *model.SysUser) (err error, userInfo *model.SysUser) {
 	err = db.Where("loginName = ? And password = ?", user.LoginName, user.Password).First(&bean).Error
 	return err, &bean
 }
+
+//修改用户密码
+func ChangePassword(user *model.SysUser, newPassword string) (err error, userInfo *model.SysUser) {
+	var bean model.SysUser
+	db := global.GLOBAL_DB
+	util.Md5Enc([]byte(user.Password))
+	err = db.Where("loginName = ? And password = ?", user.LoginName, user.Password).First(&bean).Update("password", util.Md5Enc([]byte(newPassword))).Error
+	return err, user
+}

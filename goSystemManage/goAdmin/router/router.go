@@ -8,9 +8,10 @@ import (
 
 func InitUserRouter(Router *gin.RouterGroup) {
 	UseRouter := Router.Group("user").
-		Use(handler.JWTAuth()).Use(handler.CasbinHandler())
+		Use(handler.JWTAuth()).
+		Use(handler.CasbinHandler())
 	{
-		UseRouter.POST("register", ctrl.Register) //注册用户
+		UseRouter.POST("ChangePassword", ctrl.ChangePassword) //修改密码
 	}
 }
 

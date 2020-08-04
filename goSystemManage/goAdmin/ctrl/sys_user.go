@@ -45,6 +45,30 @@ func Register(c *gin.Context) {
 
 }
 
+//用户---修改密码
+func ChangePassword(c *gin.Context) {
+	var ChangeEntity request.ChangePasswordStruct
+	err := c.ShouldBindJSON(&ChangeEntity)
+	if err != nil {
+		response.FailWithMessage("数据格式异常", c)
+	}
+	userVerify := util.Rules{
+		"LoginName":   {util.NotEmpty()},
+		"OldPassword": {util.NotEmpty()},
+		"NewPassword": {util.NotEmpty()},
+	}
+	userVerifyErr := util.Verify(ChangeEntity, userVerify)
+	if userVerifyErr != nil {
+		response.FailWithMessage(userVerifyErr.Error(), c)
+	}
+	u := &model.SysUser{LoginName: ChangeEntity.LoginName, Password: ChangeEntity.OldPassword}
+	if err, _ := service.ChangePassword(u, ChangeEntity.NewPassword); err != nil {
+		response.FailWithMessage("修改密码失败，请检查密码是否正确", c)
+	} else {
+		response.SuccessWithMessage("修改密码成功", c)
+	}
+}
+
 //用户登录接口
 func Login(c *gin.Context) {
 	var Login request.LoginStruct
@@ -72,6 +96,25 @@ func Login(c *gin.Context) {
 		tokenJwt(c, *userBean)
 	} else {
 		response.FailWithMessage("验证码错误！", c)
+	}
+}
+
+//用户管理--删除用户
+func DeleteUser(c *gin.Context) {
+	var Login request.LoginStruct
+	err := c.ShouldBindJSON(&Login)
+	if err != nil {
+		response.FailWithMessage("数据格式异常", c)
+	}
+	userVerify := util.Rules{
+		"LoginName": {util.NotEmpty()},
+		"Captcha":   {util.NotEmpty()},
+		"CaptchaId": {util.NotEmpty()},
+		"Password":  {util.NotEmpty()},
+	}
+	userVerifyErr := util.Verify(Login, userVerify)
+	if userVerifyErr != nil {
+		response.FailWithMessage(userVerifyErr.Error(), c)
 	}
 }
 

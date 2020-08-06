@@ -6,6 +6,7 @@ import (
 	"goAdmin/handler"
 )
 
+//设置用户基础路由
 func InitUserRouter(Router *gin.RouterGroup) {
 	UseRouter := Router.Group("user").
 		Use(handler.JWTAuth()).
@@ -23,5 +24,16 @@ func InitBaseRiyter(Router *gin.RouterGroup) {
 		BaseRouter.POST("register", ctrl.Register) //注册用户
 		BaseRouter.POST("login", ctrl.Login)       //登录用户
 		BaseRouter.POST("captcha", ctrl.Captcha)   //获取验证码
+	}
+}
+
+//设置菜单基础路由
+func InitMenuRouter(Router *gin.RouterGroup) {
+	UseRouter := Router.Group("menu").
+		Use(handler.JWTAuth()).
+		Use(handler.CasbinHandler())
+	{
+		UseRouter.POST("GetMenuPage", ctrl.GetMenuPage) //获取菜单列表
+
 	}
 }

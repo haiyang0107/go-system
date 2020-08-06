@@ -7,3 +7,8 @@ type GetById struct {
 type GetIds struct {
 	Ids []int `json:"ids" form:"ids"`
 }
+
+type PageStrut struct {
+	PageSize int `json:"pageSize"`
+	PageNum  int `json:"pageNum"`
+}

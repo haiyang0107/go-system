@@ -13,4 +13,5 @@ type SysMenu struct {
 	Icon      string    `json:"icon" gorm:"comment:'菜单图标'"`
 	Component string    `json:"component" gorm:"comment:'对应前端路径'"`
 	Children  []SysMenu `json:"children"`
+	SysRoles  []SysRole `json:"sysRoles" gorm:"many2many:sys_role_menus"`
 }

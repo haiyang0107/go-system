@@ -13,4 +13,5 @@ type SysUser struct {
 	Image     string    `json:"image" gorm:"comment:'用户头像'"`
 	RoleId    int       `json:"roleId" gorm:"comment:'用户角色id'"`
 	Password  string    `json:"password" gorm:"comment:'用户密码'"`
+	SysRole   SysRole   `json:"sysRole" gorm:"ForeignKey:RoleId;AssociationForeignKey:RoleId;comment:'用户角色'"` //关联外键，建表时自动创建关联表
 }

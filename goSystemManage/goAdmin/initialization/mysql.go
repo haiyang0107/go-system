@@ -31,7 +31,6 @@ func InitDbTables() {
 		model.SysApi{},
 		model.SysMenu{},
 		model.SysRole{},
-		model.SysRoleMenu{},
 		model.SysJwtBlack{},
 		model.SysCasbin{},
 	)

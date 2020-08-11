@@ -15,6 +15,8 @@ func Routers() *gin.Engine {
 	ApiGroup := Router.Group("")
 	router.InitBaseRiyter(ApiGroup) //注册基础服务
 	router.InitUserRouter(ApiGroup) //注册用户服务
+	router.InitMenuRouter(ApiGroup) //注册菜单服务
+	router.InitApiRouter(ApiGroup)  //注册api服务
 	global.GLOBAL_LOG.Info("register routers for server Success ")
 	return Router
 }

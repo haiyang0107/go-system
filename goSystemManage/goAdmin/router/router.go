@@ -37,3 +37,16 @@ func InitMenuRouter(Router *gin.RouterGroup) {
 
 	}
 }
+
+//设置api请求路由
+func InitApiRouter(Router *gin.RouterGroup) {
+	ApiRouter := Router.Group("api").
+		Use(handler.JWTAuth()).
+		Use(handler.CasbinHandler())
+	{
+		ApiRouter.POST("CreateApi", ctrl.CreateApi) //创建api
+		ApiRouter.POST("UpdateApi", ctrl.UpdateApi) //更新api
+		ApiRouter.POST("DeleteApi", ctrl.DeleteApi) //删除api
+
+	}
+}

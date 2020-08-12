@@ -18,6 +18,9 @@ func AllMenuList() (err error, menus []model.SysMenu) {
 		return
 	}
 }
+func GetMenuTreeById(id int) (err error, menuList []model.SysMenu) {
+
+}
 
 func getMenuTree(list []model.SysMenu) (menus []model.SysMenu) {
 	treeMap := make(map[int][]model.SysMenu)

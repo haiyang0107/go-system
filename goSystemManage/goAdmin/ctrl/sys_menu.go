@@ -58,6 +58,18 @@ func GetMenuAll(c *gin.Context) {
 	}
 }
 
+//根据id查看当前树形结构
+func getMenuTreeById(c *gin.Context) {
+	var Id request.GetById
+	id := checkStructById(Id.Id, c)
+	err, menuList := service.GetMenuTreeById(id)
+	if err != nil {
+		response.FailWithMessage(fmt.Sprintf("根据id获取菜单树数据失败,%v", err), c)
+	} else {
+		response.SuccessWithData(menuList, c)
+	}
+}
+
 //删除菜单
 func DeleteMenu(c *gin.Context) {
 	var Id request.GetById

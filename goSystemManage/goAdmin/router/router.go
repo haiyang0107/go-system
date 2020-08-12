@@ -33,7 +33,11 @@ func InitMenuRouter(Router *gin.RouterGroup) {
 		Use(handler.JWTAuth()).
 		Use(handler.CasbinHandler())
 	{
-		UseRouter.POST("GetMenuPage", ctrl.GetMenuPage) //获取菜单列表
+		UseRouter.POST("GetMenuAll", ctrl.GetMenuAll)   //获取全部菜单
+		UseRouter.POST("GetMenuInfo", ctrl.GetMenuInfo) //获取菜单详情
+		UseRouter.POST("CreateMenu", ctrl.CreateMenu)   //创建菜单
+		UseRouter.POST("UpdateMenu", ctrl.UpdateMenu)   //更新菜单
+		UseRouter.POST("DeleteMenu", ctrl.DeleteMenu)   //删除菜单
 
 	}
 }

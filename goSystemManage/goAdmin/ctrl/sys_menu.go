@@ -50,7 +50,12 @@ func UpdateMenu(c *gin.Context) {
 
 //获取全部菜单
 func GetMenuAll(c *gin.Context) {
-
+	err, list := service.AllMenuList()
+	if err != nil {
+		response.FailWithMessage(fmt.Sprintf("获取全部菜单数据失败,%v", err), c)
+	} else {
+		response.SuccessWithData(list, c)
+	}
 }
 
 //删除菜单

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"goAdmin/base/request"
+	response2 "goAdmin/base/response"
 	"goAdmin/global/response"
 	"goAdmin/model"
 	"goAdmin/service"
@@ -37,6 +38,15 @@ func UpdateApi(c *gin.Context) {
 //删除api
 func DeleteApi(c *gin.Context) {
 	var ID request.GetById
+	id := checkStructById(ID.Id, c)
+	err := service.DeleteApi(id)
+	if err != nil {
+		response.FailWithMessage(fmt.Sprintf("删除数据失败,%v", err), c)
+	} else {
+		response.SuccessWithMessage("删除成功", c)
+	}
+}
+func checkStructById(ID int, c *gin.Context) (id int) {
 	err := c.ShouldBindJSON(&ID)
 	if err != nil {
 		response.FailWithMessage("数据格式异常", c)
@@ -46,12 +56,7 @@ func DeleteApi(c *gin.Context) {
 	if IdVerifyErr != nil {
 		response.FailWithMessage(IdVerifyErr.Error(), c)
 	}
-	err = service.DeleteApi(ID)
-	if err != nil {
-		response.FailWithMessage(fmt.Sprintf("删除数据失败,%v", err), c)
-	} else {
-		response.SuccessWithMessage("删除成功", c)
-	}
+	return ID
 }
 func checkStruct(api model.SysApi, c *gin.Context) {
 	err := c.ShouldBindJSON(&api)
@@ -68,5 +73,49 @@ func checkStruct(api model.SysApi, c *gin.Context) {
 	if apiVerifyErr != nil {
 		response.FailWithMessage(apiVerifyErr.Error(), c)
 		return
+	}
+}
+
+//获取api信息通过id
+func GetById(c *gin.Context) {
+	var ID request.GetById
+	id := checkStructById(ID.Id, c)
+	err, m := service.GetApiById(id)
+	if err != nil {
+		response.FailWithMessage(fmt.Sprintf("获取数据失败,%v", err), c)
+	} else {
+		response.SuccessWithData(m, c)
+	}
+}
+
+//获取全部API信息,不分页
+func AllListApi(c *gin.Context) {
+	err, apis := service.GetAllListApi()
+	if err != nil {
+		response.FailWithMessage(fmt.Sprintf("获取全部API数据失败,%v", err), c)
+	} else {
+		response.SuccessWithData(apis, c)
+	}
+}
+
+//分页查询-带搜索条件，
+func PageListApi(c *gin.Context) {
+	var params request.ApiParams
+	c.ShouldBindJSON(params)
+	PageVerifyErr := util.Verify(params.PageStrut, util.CustomizeMap["pageVerify"])
+	if PageVerifyErr != nil {
+		response.FailWithMessage(PageVerifyErr.Error(), c)
+	}
+	//service 获取 数据信息
+	err, list, total := service.PageApisList(params.SysApi, params.PageStrut, params.Desc, params.OrderString)
+	if err != nil {
+		response.FailWithMessage(fmt.Sprintf("获取分页数据失败,%v", err), c)
+	} else {
+		response.FailWithData(response2.PageResult{
+			List:     list,
+			Total:    total,
+			PageSize: params.PageSize,
+			PageNum:  params.PageNum,
+		}, c)
 	}
 }

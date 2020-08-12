@@ -2,6 +2,7 @@ package service
 
 import (
 	"errors"
+	"goAdmin/base/request"
 	"goAdmin/global"
 	"goAdmin/model"
 )
@@ -55,5 +56,50 @@ func DeleteApi(id int) (err error) {
 		err = db.Delete(api).Error
 		clearCabinApi(1, api.Method, api.Path)
 		return err
+	}
+}
+
+func GetApiById(id int) (err error, m model.SysApi) {
+	err = global.GLOBAL_DB.Where("id = ? ", id).First(&model.SysApi{}).Error
+	return
+}
+
+func GetAllListApi() (err error, apis []model.SysApi) {
+	err = global.GLOBAL_DB.Find(&apis).Error
+	return
+}
+
+func PageApisList(api model.SysApi, page request.PageStrut, desc bool, orderString string) (err error, list []model.SysApi, total int) {
+	db := global.GLOBAL_DB.Model(&model.SysApi{})
+	limit := page.PageSize
+	offset := page.PageSize * (page.PageNum - 1)
+	var apiList []model.SysApi
+
+	if api.Path != "" {
+		db.Where("path LIKE ? ", "%"+api.Path+"%")
+	}
+	if api.Description != "" {
+		db.Where("description LIKE ? ", "%"+api.Description+"%")
+	}
+	if api.Method != "" {
+		db.Where("method = ? ", api.Method)
+	}
+	if api.Group != "" {
+		db.Where("group = ? ", api.Group)
+	}
+	err = db.Count(&total).Error
+	if err != nil {
+		return err, apiList, total
+	} else {
+		db = db.Limit(limit).Offset(offset)
+		if orderString != "" {
+			if desc {
+				orderString = orderString + " desc"
+			}
+			err = db.Order(orderString, true).Find(&apiList).Error
+		} else {
+			err = db.Order("group", true).Find(&apiList).Error
+		}
+		return err, apiList, total
 	}
 }

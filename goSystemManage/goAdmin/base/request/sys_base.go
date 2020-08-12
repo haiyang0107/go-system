@@ -1,7 +1,7 @@
 package request
 
 type GetById struct {
-	Id float64 `json:"id" form:"id"`
+	Id int `json:"id" form:"id"`
 }
 
 type GetIds struct {

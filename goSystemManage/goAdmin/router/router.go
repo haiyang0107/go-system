@@ -44,9 +44,11 @@ func InitApiRouter(Router *gin.RouterGroup) {
 		Use(handler.JWTAuth()).
 		Use(handler.CasbinHandler())
 	{
-		ApiRouter.POST("CreateApi", ctrl.CreateApi) //创建api
-		ApiRouter.POST("UpdateApi", ctrl.UpdateApi) //更新api
-		ApiRouter.POST("DeleteApi", ctrl.DeleteApi) //删除api
-
+		ApiRouter.POST("CreateApi", ctrl.CreateApi)     //创建api
+		ApiRouter.POST("UpdateApi", ctrl.UpdateApi)     //更新api
+		ApiRouter.POST("DeleteApi", ctrl.DeleteApi)     //删除api
+		ApiRouter.POST("GetById", ctrl.GetById)         //根据id获取api详情
+		ApiRouter.POST("AllListApi", ctrl.AllListApi)   //获取全部API，不分页
+		ApiRouter.POST("PageListApi", ctrl.PageListApi) //分页api list 信息
 	}
 }

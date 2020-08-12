@@ -46,6 +46,7 @@ func DeleteApi(c *gin.Context) {
 		response.SuccessWithMessage("删除成功", c)
 	}
 }
+
 func checkStructById(ID int, c *gin.Context) (id int) {
 	err := c.ShouldBindJSON(&ID)
 	if err != nil {

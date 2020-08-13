@@ -15,6 +15,7 @@ func InitUserRouter(Router *gin.RouterGroup) {
 		UseRouter.POST("ChangePassword", ctrl.ChangePassword) //修改密码
 		UseRouter.POST("DeleteUser", ctrl.DeleteUser)         //删除用户
 		UseRouter.POST("CreateUser", ctrl.CreateUser)         //新增用户
+		UseRouter.POST("UpdateUser", ctrl.UpdateUser)         //编辑用户
 	}
 }
 

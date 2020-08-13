@@ -24,6 +24,21 @@ func Register(user model.SysUser) (err error, userInfo model.SysUser) {
 	}
 }
 
+func UpdateUser(user model.SysUser) (err error) {
+	db := global.GLOBAL_DB
+	//判断用户是否注册
+	flag := db.Where("name = ?", user.Name).First(&user).RecordNotFound()
+	if !flag {
+		return errors.New("用户名已存在，请修改！")
+	} else {
+		//否则，对密码进行加密，然后数据入库
+		user.Password = util.Md5Enc([]byte(user.Password))
+		user.UUID = uuid.NewV4()
+		err := db.Create(&user).Error
+		return err
+	}
+}
+
 //用户登录 service 方法
 func Login(user *model.SysUser) (err error, userInfo *model.SysUser) {
 	var bean model.SysUser

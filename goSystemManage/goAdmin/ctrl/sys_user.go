@@ -122,6 +122,27 @@ func DeleteUser(c *gin.Context) {
 // 用户管理-新增用户
 func CreateUser(c *gin.Context) {
 	var user model.SysUser
+	checkUserInfo(user, c)
+	e, _ := service.Register(user)
+	if e != nil {
+		response.FailWithMessage(fmt.Sprintf("新增用户失败，原因是：%v", e), c)
+	} else {
+		response.SuccessWithMessage("新增用户成功", c)
+	}
+}
+
+//编辑用户-包含个人信息修改以及用户权限赋权
+func UpdateUser(c *gin.Context) {
+	var user model.SysUser
+	checkUserInfo(user, c)
+	err := service.UpdateUser(user)
+	if err != nil {
+		response.FailWithMessage(fmt.Sprintf("更新用户信息异常：%v", err), c)
+	} else {
+		response.SuccessWithMessage("更新用户信息成功！", c)
+	}
+}
+func checkUserInfo(user model.SysUser, c *gin.Context) {
 	err := c.ShouldBindJSON(&user)
 	if err != nil {
 		response.FailWithMessage("数据格式异常", c)
@@ -138,12 +159,6 @@ func CreateUser(c *gin.Context) {
 		response.FailWithMessage(userVerifyErr.Error(), c)
 		return
 	}
-	e, _ := service.Register(user)
-	if e != nil {
-		response.FailWithMessage(fmt.Sprintf("新增用户失败，原因是：%v", e), c)
-	} else {
-		response.SuccessWithMessage("新增用户成功", c)
-	}
 }
 
 //登录之后，生成jwt
@@ -157,7 +172,6 @@ func tokenJwt(c *gin.Context, user model.SysUser) {
 		Name:   user.LoginName,
 		RoleId: user.RoleId,
 		StandardClaims: jwt.StandardClaims{
-
 			ExpiresAt: time.Now().Unix() + 60*60*24*7,      // 过期时间 一周
 			Issuer:    global.GLOBAL_CONFIG.Jwt.SigningKey, // 签名的发行者
 			NotBefore: time.Now().Unix() - 1000,            // 签名生效时间

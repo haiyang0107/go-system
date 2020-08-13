@@ -13,7 +13,7 @@ func Routers() *gin.Engine {
 	Router.Use(handler.Cors())
 	//添加路由分组，上线统一使用
 	ApiGroup := Router.Group("")
-	router.InitBaseRiyter(ApiGroup) //注册基础服务
+	router.InitBaseRouter(ApiGroup) //注册基础服务
 	router.InitUserRouter(ApiGroup) //注册用户服务
 	router.InitMenuRouter(ApiGroup) //注册菜单服务
 	router.InitApiRouter(ApiGroup)  //注册api服务

@@ -14,11 +14,12 @@ func InitUserRouter(Router *gin.RouterGroup) {
 	{
 		UseRouter.POST("ChangePassword", ctrl.ChangePassword) //修改密码
 		UseRouter.POST("DeleteUser", ctrl.DeleteUser)         //删除用户
+		UseRouter.POST("CreateUser", ctrl.CreateUser)         //新增用户
 	}
 }
 
 //设置基础网关服务
-func InitBaseRiyter(Router *gin.RouterGroup) {
+func InitBaseRouter(Router *gin.RouterGroup) {
 	BaseRouter := Router.Group("base")
 	{
 		BaseRouter.POST("register", ctrl.Register) //注册用户

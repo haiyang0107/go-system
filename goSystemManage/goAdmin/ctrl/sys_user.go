@@ -1,6 +1,7 @@
 package ctrl
 
 import (
+	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/mojocn/base64Captcha"
@@ -115,6 +116,33 @@ func DeleteUser(c *gin.Context) {
 		response.FailWithMessage("删除用户失败，请检查Id是否正确", c)
 	} else {
 		response.SuccessWithMessage("删除用户成功", c)
+	}
+}
+
+// 用户管理-新增用户
+func CreateUser(c *gin.Context) {
+	var user model.SysUser
+	err := c.ShouldBindJSON(&user)
+	if err != nil {
+		response.FailWithMessage("数据格式异常", c)
+	}
+	userVerify := util.Rules{
+		"LoginName": {util.NotEmpty()},
+		"Name":      {util.NotEmpty()},
+		"Password":  {util.NotEmpty()},
+		"RoleId":    {util.NotEmpty()},
+		//"Image":  {util.NotEmpty()},后续添加 图片上传功能
+	}
+	userVerifyErr := util.Verify(user, userVerify)
+	if userVerifyErr != nil {
+		response.FailWithMessage(userVerifyErr.Error(), c)
+		return
+	}
+	e, _ := service.Register(user)
+	if e != nil {
+		response.FailWithMessage(fmt.Sprintf("新增用户失败，原因是：%v", e), c)
+	} else {
+		response.SuccessWithMessage("新增用户成功", c)
 	}
 }
 

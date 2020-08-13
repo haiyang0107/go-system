@@ -43,7 +43,7 @@ func ChangePassword(user *model.SysUser, newPassword string) (err error, userInf
 }
 
 //删除用户
-func DeleteUser(id float64) (err error) {
+func DeleteUser(id int) (err error) {
 	var bean model.SysUser
 	db := global.GLOBAL_DB
 	err = db.Where(" id = ? ", id).Delete(&bean).Error

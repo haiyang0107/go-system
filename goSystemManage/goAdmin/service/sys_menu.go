@@ -18,8 +18,31 @@ func AllMenuList() (err error, menus []model.SysMenu) {
 		return
 	}
 }
-func GetMenuTreeById(id int) (err error, menuList []model.SysMenu) {
+func GetMenuTreeById(id int) (err error, menu model.SysMenu) {
+	var menuModel model.SysMenu
+	//第一步获取当前id以及parent_id为传入参数的所有数据
+	err = global.GLOBAL_DB.Where("id = ? ", id).First(menuModel).Error
+	if err != nil {
+		return err, menu
+	} else {
+		err, menu := getChildrenMenu(menuModel)
+		return err, menu
+	}
+}
 
+func getChildrenMenu(m model.SysMenu) (err error, menuModel model.SysMenu) {
+	//根据 id 获取 子集 数据
+	var childrenList []model.SysMenu
+	err = global.GLOBAL_DB.Where("parent_id = ? ", m.ID).Find(&childrenList).Error
+	if err != nil {
+		return err, m
+	} else {
+		for _, v := range childrenList {
+			getChildrenMenu(v)
+		}
+		menuModel.Children = childrenList
+		return err, menuModel
+	}
 }
 
 func getMenuTree(list []model.SysMenu) (menus []model.SysMenu) {
@@ -31,6 +54,7 @@ func getMenuTree(list []model.SysMenu) (menus []model.SysMenu) {
 	for i := 0; i < len(menus); i++ {
 		getChildrenMenuList(&menus[i], treeMap)
 	}
+	return
 }
 func getChildrenMenuList(menu *model.SysMenu, treemap map[int][]model.SysMenu) {
 	menu.Children = treemap[int(menu.ID)]
@@ -69,6 +93,13 @@ func UpdateMenu(menu model.SysMenu) (err error) {
 func DeleteMenuById(id int) (e error) {
 	err := global.GLOBAL_DB.Where(" parent_id = ? ", id).First(&model.SysMenu{}).Error
 	if err != nil {
+		var menu model.SysMenu
+		db := global.GLOBAL_DB.Preload("SysRoles").Where("id = ?", id).First(&menu).Delete(&menu)
+		if len(menu.SysRoles) > 0 {
+			return db.Association("SysRoles").Delete(menu.SysRoles).Error
+		} else {
+			return db.Error
+		}
 
 	} else {
 		return errors.New("此菜单存在子菜单不可删除！")

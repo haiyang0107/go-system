@@ -59,7 +59,7 @@ func GetMenuAll(c *gin.Context) {
 }
 
 //根据id查看当前树形结构
-func getMenuTreeById(c *gin.Context) {
+func GetMenuTreeById(c *gin.Context) {
 	var Id request.GetById
 	id := checkStructById(Id.Id, c)
 	err, menuList := service.GetMenuTreeById(id)

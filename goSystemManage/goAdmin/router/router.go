@@ -59,3 +59,18 @@ func InitApiRouter(Router *gin.RouterGroup) {
 		ApiRouter.POST("PageListApi", ctrl.PageListApi) //分页api list 信息
 	}
 }
+
+//角色相关的路由
+func InitRoleRouter(Router *gin.RouterGroup) {
+	SysRoleRouter := Router.Group("sysRole").
+		Use(handler.JWTAuth()).
+		Use(handler.CasbinHandler())
+	{
+		SysRoleRouter.POST("CreateRole", ctrl.CreateRole)   //创建角色
+		SysRoleRouter.POST("UpdateApi", ctrl.UpdateApi)     //更新角色
+		SysRoleRouter.POST("DeleteApi", ctrl.DeleteApi)     //删除角色
+		SysRoleRouter.POST("GetById", ctrl.GetById)         //根据id获取角色详情
+		SysRoleRouter.POST("AllListApi", ctrl.AllListApi)   //获取全部角色，不分页
+		SysRoleRouter.POST("PageListApi", ctrl.PageListApi) //分页角色list 信息
+	}
+}

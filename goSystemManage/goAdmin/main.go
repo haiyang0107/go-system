@@ -17,7 +17,9 @@ func main() {
 		initialization.Mysql()
 		fmt.Println("默认初始化MySQL")
 	}
-
+	//初始化表结构
+	initialization.InitDbTables()
 	fmt.Printf("this is a new start about go!")
+	//开启服务
 	config.RunServer()
 }

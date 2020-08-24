@@ -1,5 +1,6 @@
 package handler
 
+//noinspection GoUnresolvedReference
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"

@@ -11,9 +11,22 @@ mysql:
   max-idle-conns: 10
   max-open-conns: 10
   log-mode: false
+#redis connect configuration
+redis:
+  addr: '127.0.0.1:6379'
+  password: ''
+  db: 0
+#Casbin configuration
+casbin:
+  model-path: './resource/rbac_model/conf'
+
+#jwt configuration
+jwt:
+   signing-key: 'nxzServer'
 
 # system configuration
 system:
+  allowSingle: false
   env: 'public'
   addr: 8888
   db-type: "mysql"
@@ -24,3 +37,9 @@ log:
   log-file: true
   stdout: 'DEBUG'
   file: 'DEBUG'
+
+#captcha configuration
+captcha:
+  key-long: 6
+  img-width: 240
+  img-height: 80

@@ -23,8 +23,8 @@ export default {
   name: 'Login',
   data () {
     return {
-      loginId: '',
-      password: '',
+      loginId: 'admin',
+      password: '123456',
       isShowNotice: false,
       noticeContent: ''
     }
@@ -103,7 +103,6 @@ export default {
     margin-bottom: 20px;
     box-sizing: border-box;
 }
-
 .login-btn {
   width: 100%;
   height: 40px;

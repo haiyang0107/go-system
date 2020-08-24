@@ -4,6 +4,7 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"goAdmin/global"
+	"goAdmin/model"
 	"os"
 )
 
@@ -20,4 +21,18 @@ func Mysql() {
 		global.GLOBAL_DB.LogMode(admin.LogMode)
 		global.GLOBAL_LOG.Error("mysql 启动成功")
 	}
+}
+
+//初始化表结构，注册数据库专用
+func InitDbTables() {
+	db := global.GLOBAL_DB
+	db.AutoMigrate(
+		model.SysUser{},
+		model.SysApi{},
+		model.SysMenu{},
+		model.SysRole{},
+		model.SysJwtBlack{},
+		model.SysCasbin{},
+	)
+	global.GLOBAL_LOG.Debug("register table   success")
 }
